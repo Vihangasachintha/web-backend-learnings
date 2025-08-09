@@ -13,7 +13,10 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import Student from "./models/student.js"; // Importing the Student model   
+// import Student from "./models/student.js"; // Importing the Student model
+import studentRouter from "./routes/studentRouter.js";
+import productRouter from "./routes/productRouter.js";
+import userRouter from "./routes/useroute.js";
 
 const app = express();
 
@@ -33,58 +36,9 @@ mongoose
 
 //-----------------------
 
-app.get("/", (req, res) => {
-  Student.find()
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((error) => {
-      res.json({
-        message: "Failed to fetch students!",
-        error: error.message,
-      });
-    });
-});
-
-app.delete("/", (req, res) => {
-  res.json({
-    message: "This is a DELETE request.",
-  });
-});
-
-app.post("/", (req, res) => {
-  console.log(req.body);
-
-  //Student collection
-  
-    const student = new Student({
-        name: req.body.name,
-        age: req.body.age,
-        stream: req.body.stream,
-        email: req.body.email,
-    });
-
-    student
-      .save()
-      .then(() => {
-        res.json({
-          message: "Student added successfully!",
-        });
-      })
-      .catch((error) => {
-        res.json({
-          message: "Failed to add Student!",
-          error: error.message,
-        });
-      });
-
-});
-
-app.put("/", (req, res) => {
-    res.json({
-        message: "This is a PUT request.",
-    });
-});
+app.use("/students", studentRouter); // Using the studentRouter for /students endpoint
+app.use("/products", productRouter);
+app.use("/users", userRouter);
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
