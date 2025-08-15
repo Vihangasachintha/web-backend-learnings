@@ -17,10 +17,35 @@ import mongoose from "mongoose";
 import studentRouter from "./routes/studentRouter.js";
 import productRouter from "./routes/productRouter.js";
 import userRouter from "./routes/useroute.js";
+import jwt from "jsonwebtoken";
 
 const app = express();
 
 app.use(bodyParser.json()); // This must code before other functions
+
+app.use((req, res, next) => {
+  const tokenString = req.header("Authorization");
+  if (tokenString != null) {
+    const token = tokenString.replace("Bearer ", "");
+    // console.log(token);
+
+    jwt.verify(token, "cbc-batch-five#@2025", (err, decoded) => {
+      if (decoded != null) {
+        req.user = decoded;
+        next();
+      }else{
+        console.log("Invalid token!");
+        res.status(403).json({
+          message : "Invalid token"
+        });
+      }
+    });
+  }else{
+    next();
+  }
+
+  // next();
+});
 
 //database connection
 mongoose
