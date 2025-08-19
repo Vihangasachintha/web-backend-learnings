@@ -14,7 +14,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 // import Student from "./models/student.js"; // Importing the Student model
-import studentRouter from "./routes/studentRouter.js";
+// import studentRouter from "./routes/studentRouter.js";
 import productRouter from "./routes/productRouter.js";
 import userRouter from "./routes/useroute.js";
 import jwt from "jsonwebtoken";
@@ -61,7 +61,7 @@ mongoose
 
 //-----------------------
 
-app.use("/students", studentRouter); // Using the studentRouter for /students endpoint
+// app.use("/students", studentRouter); // Using the studentRouter for /students endpoint
 app.use("/products", productRouter);
 app.use("/users", userRouter);
 
