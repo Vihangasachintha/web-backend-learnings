@@ -18,6 +18,7 @@ import mongoose from "mongoose";
 import productRouter from "./routes/productRouter.js";
 import userRouter from "./routes/useroute.js";
 import jwt from "jsonwebtoken";
+import orderRouter from "./routes/orderRoute.js";
 
 const app = express();
 
@@ -33,14 +34,14 @@ app.use((req, res, next) => {
       if (decoded != null) {
         req.user = decoded;
         next();
-      }else{
+      } else {
         console.log("Invalid token!");
         res.status(403).json({
-          message : "Invalid token"
+          message: "Invalid token",
         });
       }
     });
-  }else{
+  } else {
     next();
   }
 
@@ -64,6 +65,7 @@ mongoose
 // app.use("/students", studentRouter); // Using the studentRouter for /students endpoint
 app.use("/products", productRouter);
 app.use("/users", userRouter);
+app.use("/orders", orderRouter);
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
