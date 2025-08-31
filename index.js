@@ -19,9 +19,11 @@ import productRouter from "./routes/productRouter.js";
 import userRouter from "./routes/useroute.js";
 import jwt from "jsonwebtoken";
 import orderRouter from "./routes/orderRoute.js";
+import cors from "cors";
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json()); // This must code before other functions
 
 app.use((req, res, next) => {
@@ -63,9 +65,9 @@ mongoose
 //-----------------------
 
 // app.use("/students", studentRouter); // Using the studentRouter for /students endpoint
-app.use("/products", productRouter);
-app.use("/users", userRouter);
-app.use("/orders", orderRouter);
+app.use("/api/products", productRouter);
+app.use("/api/users", userRouter);
+app.use("/api/orders", orderRouter);
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
