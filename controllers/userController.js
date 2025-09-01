@@ -62,7 +62,7 @@ export function loginUser(req, res) {
             role: user.role,
             img: user.img,
           },
-          process.env.JWT_URL 
+          process.env.JWT_KEY 
         );
 
         res.json({
