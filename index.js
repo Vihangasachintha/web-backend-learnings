@@ -19,11 +19,13 @@ import productRouter from "./routes/productRouter.js";
 import userRouter from "./routes/useroute.js";
 import jwt from "jsonwebtoken";
 import orderRouter from "./routes/orderRoute.js";
-import cors from 'cors';
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.json()); // This must code before other functions
 
 app.use((req, res, next) => {
@@ -32,7 +34,7 @@ app.use((req, res, next) => {
     const token = tokenString.replace("Bearer ", "");
     // console.log(token);
 
-    jwt.verify(token, "cbc-batch-five#@2025", (err, decoded) => {
+    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
       if (decoded != null) {
         req.user = decoded;
         next();
@@ -52,9 +54,7 @@ app.use((req, res, next) => {
 
 //database connection
 mongoose
-  .connect(
-    "mongodb+srv://admin:12345@cluster0.dezpn9k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(process.env.MONGODB_URL)
   .then(() => {
     console.log("Connected to the Database!");
   })
