@@ -65,6 +65,7 @@ mongoose
 //-----------------------
 
 // app.use("/students", studentRouter); // Using the studentRouter for /students endpoint
+// Mount API routes under /api to match frontend expectations
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
