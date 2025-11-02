@@ -19,9 +19,11 @@ import productRouter from "./routes/productRouter.js";
 import userRouter from "./routes/useroute.js";
 import jwt from "jsonwebtoken";
 import orderRouter from "./routes/orderRoute.js";
+import cors from 'cors';
 
 const app = express();
 
+app.use(cors())
 app.use(bodyParser.json()); // This must code before other functions
 
 app.use((req, res, next) => {
@@ -51,7 +53,7 @@ app.use((req, res, next) => {
 //database connection
 mongoose
   .connect(
-    "mongodb+srv://admin:1234@cluster0.dezpn9k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    "mongodb+srv://admin:12345@cluster0.dezpn9k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   )
   .then(() => {
     console.log("Connected to the Database!");
@@ -63,9 +65,10 @@ mongoose
 //-----------------------
 
 // app.use("/students", studentRouter); // Using the studentRouter for /students endpoint
-app.use("/products", productRouter);
-app.use("/users", userRouter);
-app.use("/orders", orderRouter);
+// Mount API routes under /api to match frontend expectations
+app.use("/api/products", productRouter);
+app.use("/api/users", userRouter);
+app.use("/api/orders", orderRouter);
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
