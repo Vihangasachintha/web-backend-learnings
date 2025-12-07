@@ -62,7 +62,7 @@ export async function createOrder(req, res) {
           altNames: item.altNames,
           description: item.description,
           images: item.images,
-          labelPrice: item.labelPrice,
+          labelPrice: item.labelPrice ?? item.price ?? 0,
           price: item.price,
         },
         quantity: orderInfo.products[i].quantity,
@@ -90,6 +90,7 @@ export async function createOrder(req, res) {
       order: createdOrder,
     });
   } catch (err) {
+    console.log("🔥 BACKEND ORDER ERROR:", err);
     res.status(500).json({
       message: "Failed to create order.",
       error: err,

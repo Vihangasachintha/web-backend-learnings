@@ -30,26 +30,25 @@ app.use(bodyParser.json()); // This must code before other functions
 
 app.use((req, res, next) => {
   const tokenString = req.header("Authorization");
+  
   if (tokenString != null) {
     const token = tokenString.replace("Bearer ", "");
-    // console.log(token);
-
-    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
-      if (decoded != null) {
-        req.user = decoded;
-        next();
-      } else {
-        console.log("Invalid token!");
-        res.status(403).json({
-          message: "Invalid token",
-        });
-      }
-    });
+    
+    try {
+      // Use synchronous verify instead of callback
+      const decoded = jwt.verify(token, process.env.JWT_KEY);
+      req.user = decoded;
+      next();
+    } catch (err) {
+      console.log("Invalid token:", err.message);
+      // Don't send response here - let the route handler decide
+      // Some routes might not require auth
+      next();
+    }
   } else {
+    // No token provided - continue to route
     next();
   }
-
-  // next();
 });
 
 //database connection
