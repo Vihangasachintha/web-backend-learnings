@@ -6,6 +6,7 @@ import {
   updateProduct,
   getProductById,
   searchProducts,
+  newArrivalProducts,
 } from "../controllers/productController.js";
 
 const productRouter = express.Router();
@@ -16,6 +17,6 @@ productRouter.delete("/:productId", deleteProduct);
 productRouter.put("/:productId", updateProduct);
 productRouter.get("/search/:query", searchProducts);
 productRouter.get("/:productId", getProductById);
-
+productRouter.get("/new-arrivals", newArrivalProducts); 
 
 export default productRouter;
