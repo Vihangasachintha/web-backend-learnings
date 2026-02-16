@@ -2,16 +2,6 @@ import Product from "../models/product.js";
 import { isAdmin } from "./userController.js";
 
 export async function getProducts(req, res) {
-  // Product.find()
-  //   .then((data) => {
-  //     res.json(data);
-  //   })
-  //   .catch((error) => {
-  //     res.json({
-  //       message: "Error fetching products",
-  //       error: error,
-  //     });
-  //   });
 
   try {
     if (isAdmin(req)) {
@@ -150,5 +140,18 @@ export async function searchProducts(req,res){
       message: "Internal server error",
       error: err,
     });
+  }
+}
+
+export async function newArrivalProducts(req, res) {
+  try {
+    const newArrivals = await Product.find()
+      .sort({ createdAt: -1 }) // Sort by creation date, newest first
+      .limit(4) // Limit to 4 products
+      .select("productId name description price labelPrice images isAvailable stock createdAt"); // Select only needed fields
+    
+    res.status(200).json(newArrivals);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching new arrivals", error: error.message });
   }
 }

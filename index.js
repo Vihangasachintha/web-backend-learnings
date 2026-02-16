@@ -17,6 +17,7 @@ import mongoose from "mongoose";
 // import studentRouter from "./routes/studentRouter.js";
 import productRouter from "./routes/productRouter.js";
 import userRouter from "./routes/useroute.js";
+import brandRouter from "./routes/brandRouter.js";
 import jwt from "jsonwebtoken";
 import orderRouter from "./routes/orderRoute.js";
 import cors from "cors";
@@ -68,7 +69,9 @@ mongoose
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/brands", brandRouter);
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });
+ 
