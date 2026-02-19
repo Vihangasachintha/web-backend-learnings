@@ -270,3 +270,27 @@ export async function resetPassword(req, res) {
     });
   }
 }
+
+export async function getUsers(req, res) {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        message: "Not authenticated.",
+      });
+    }
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Admin access required.",
+      });
+    }
+
+    const users = await User.find({ role: "customer" }).select("-password");
+
+    res.json(users);
+  } catch (err) {
+    console.error("getAllUsers error:", err);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+}
