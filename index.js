@@ -68,6 +68,7 @@ mongoose
 // Mount API routes under /api to match frontend expectations
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
+app.use("/api/admin", userRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/brands", brandRouter);
 
