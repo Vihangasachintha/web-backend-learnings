@@ -294,3 +294,47 @@ export async function getUsers(req, res) {
     });
   }
 }
+
+export async function updateUserStatus(req, res) {
+  try {
+    // Check if user is authenticated
+    if (!req.user) {
+      return res.status(401).json({
+        message: "Not authenticated.",
+      });
+    }
+
+    // Check if user is admin
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Admin access required.",
+      });
+    }
+
+    const userId = req.params.id;
+    const { isBlocked } = req.body;
+
+    // Find and update the user
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { isBlocked: isBlocked },
+      { new: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found.",
+      });
+    }
+
+    res.json({
+      message: `User ${isBlocked ? "blocked" : "activated"} successfully`,
+      user: user,
+    });
+  } catch (err) {
+    console.error("updateUserStatus error:", err);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+}
